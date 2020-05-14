@@ -2,7 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import { Navbar } from 'reactstrap';
 import { NavbarBrand } from 'reactstrap';
-import './App.css';
+import Menu from './components/Menucomponent';
+
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <NavbarBrand href="/">Ristornte Con Fusion</NavbarBrand>
         </div>
       </Navbar>
+      <Menu />
     </div>
   );
 }
