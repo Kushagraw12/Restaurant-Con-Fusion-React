@@ -33,8 +33,13 @@ class CommentForm extends Component {
   }
 
   handleComment(values) {
-    console.log("Current state is: " + JSON.stringify(values));
-    alert("Current state is: " + JSON.stringify(values));
+    this.toggleModal();
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
   }
   render() {
     return (
@@ -69,12 +74,12 @@ class CommentForm extends Component {
                   required: "Required",
                 }}
               />
-              <Label htmlFor="Name" className="mt-4">
+              <Label htmlFor="Author" className="mt-4">
                 Your Name
               </Label>
               <Control.text
-                model=".name"
-                name="name"
+                model=".author"
+                name="author"
                 className="form-control"
                 validators={{
                   required,
@@ -84,7 +89,7 @@ class CommentForm extends Component {
               />
               <Errors
                 className="text-danger"
-                model=".name"
+                model=".author"
                 show="touched"
                 messages={{
                   required: "Required",
@@ -137,31 +142,36 @@ function RenderDish({ dish }) {
   );
 }
 
-function RenderComments({ comments }) {
-  var commentList = comments.map((comment) => {
+function RenderComments({ comments, addComment, dishId }) {
+  if (comments != null) {
     return (
-      <li key={comment.id}>
-        {comment.comment}
-        <br />
-        <br />
-        -- {comment.author},{" "}
-        {new Intl.DateTimeFormat("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "2-digit",
-        }).format(new Date(Date.parse(comment.date)))}
-        <br />
-        <br />
-      </li>
+      <div>
+        <h4>Comments</h4>
+        <ul className="list-unstyled">
+          {comments.map((comment) => {
+            return (
+              <li key={comment.id}>
+                {comment.comment}
+                <br />
+                <br />
+                -- {comment.author},{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                }).format(new Date(Date.parse(comment.date)))}
+                <br />
+                <br />
+              </li>
+            );
+          })}
+        </ul>
+        <CommentForm dishId={dishId} addComment={addComment} />
+      </div>
     );
-  });
-
-  return (
-    <div>
-      <h4>Comments</h4>
-      <ul className="list-unstyled">{commentList}</ul>
-    </div>
-  );
+  } else {
+    return <div></div>;
+  }
 }
 
 const DishDetail = (props) => {
@@ -188,8 +198,11 @@ const DishDetail = (props) => {
             <RenderDish dish={props.dish} />
           </div>
           <div className="col-12 col-md-5 m-1">
-            <RenderComments comments={props.comments} />
-            <CommentForm />
+            <RenderComments
+              comments={props.comments}
+              addComment={props.addComment}
+              dishId={props.dish.id}
+            />
           </div>
         </div>
       </div>
