@@ -8,7 +8,6 @@ import {
   Media,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import { LEADERS } from "../Shared/Leaders";
 
 const RenderLeader = ({ leader }) => {
   return (
