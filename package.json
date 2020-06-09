@@ -40,6 +40,8 @@
     "bootstrap-social": "^5.1.1",
     "font-awesome": "^4.7.0",
     "react-popper": "^2.2.3",
-    "reactstrap": "^8.4.1"
+    "reactstrap": "^8.4.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   }
 }
