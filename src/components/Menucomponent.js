@@ -9,13 +9,13 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Loading } from "./loadingcomponent";
-import { baseURL } from "../Shared/baseURL";
+import { baseUrl } from "../Shared/baseURL";
 
 function RenderMenuItem({ dish, onClick }) {
   return (
     <Card>
       <Link to={`/menu/${dish.id}`}>
-        <CardImg width="100%" src={baseURL + dish.image} alt={dish.name} />
+        <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
         <CardImgOverlay>
           <CardTitle>{dish.name}</CardTitle>
         </CardImgOverlay>
@@ -23,16 +23,14 @@ function RenderMenuItem({ dish, onClick }) {
     </Card>
   );
 }
-
 const Menu = (props) => {
   const menu = props.dishes.dishes.map((dish) => {
     return (
       <div className="col-12 col-md-5 m-1" key={dish.id}>
-        <RenderMenuItem dish={dish} />
+        <RenderMenuItem dish={dish} onClick={props.onClick} />
       </div>
     );
   });
-
   if (props.dishes.isLoading) {
     return (
       <div className="container">
@@ -45,11 +43,13 @@ const Menu = (props) => {
     return (
       <div className="container">
         <div className="row">
-          <h4>{props.dishes.errMess}</h4>
+          <div className="col-12">
+            <h4>{props.dishes.errMess}</h4>
+          </div>
         </div>
       </div>
     );
-  } else {
+  } else
     return (
       <div className="container">
         <div className="row">
@@ -57,9 +57,7 @@ const Menu = (props) => {
             <BreadcrumbItem>
               <Link to="/home">Home</Link>
             </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <Link to="/menu">Menu</Link>
-            </BreadcrumbItem>
+            <BreadcrumbItem active>Menu</BreadcrumbItem>
           </Breadcrumb>
           <div className="col-12">
             <h3>Menu</h3>
@@ -69,7 +67,6 @@ const Menu = (props) => {
         <div className="row">{menu}</div>
       </div>
     );
-  }
 };
 
 export default Menu;
